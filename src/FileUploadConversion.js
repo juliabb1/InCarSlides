@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import logo from './mb-logo.png';
 import './FileUploadConversion.css';
 const PDFJS = require("pdfjs-dist/webpack");
 
