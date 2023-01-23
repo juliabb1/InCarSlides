@@ -1,0 +1,30 @@
+.uploadForm{
+
+}
+
+
+.upload {
+    display: inline-block;
+    background-color: rgb(35, 134, 215);
+    padding: 5px;
+    width: 100px;
+    height: 35px;
+    color: #ffffff;
+    text-align: center;
+    border: 4px double #cccccc;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 10px; 
+  }
+
+.fileInput{
+    background-color: black;
+    border: 4px double #cccccc;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    padding: 20px 20px;
+    margin: 20px 20px;
+    cursor: pointer;
+}
