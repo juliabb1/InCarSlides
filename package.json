@@ -1,5 +1,5 @@
 {
-  "homepage": "https://JULIBAI.github.io/InCarSlides_Web/",
+  "homepage": "https://JULIBAI.github.io/InCarSlides_Web",
   "name": "file-upload",
   "version": "0.1.0",
   "private": true,
@@ -20,7 +20,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yarn": "^1.22.19"
   },
   "scripts": {
     "start": "react-scripts start",
