@@ -4,6 +4,7 @@ const server = jsonServer.create()
 const path = require('path')
 const router = jsonServer.router(path.join("./backend/data", 'db.json'))
 const middlewares = jsonServer.defaults()
+const port = process.env.PORT || 8000;
 server.use(middlewares)
 
 server.get('/filenames', (req, res) => {
@@ -22,6 +23,6 @@ server.use((req, res, next) => {
 
 
 server.use(router)
-server.listen(8000, () => {
+server.listen(port, () => {
   console.log('JSON Server is running')
 })
