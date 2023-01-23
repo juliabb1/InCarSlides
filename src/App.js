@@ -1,5 +1,4 @@
 import React from 'react';
-// import FileUpload from "./FileUpload";
 import FileUploadConversion from "./FileUploadConversion";
 import logo from './mb-logo.png';
 import './App.css';
