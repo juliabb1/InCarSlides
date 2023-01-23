@@ -55,7 +55,7 @@ function FileUpload() {
         img: data,
         imgCount: data.length
       }).then((res) => {
-        if(res.status == 200){
+        if(res.status === 200){
           alert("File successfully Uploaded!")
         }
         else{
