@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
+      "start": "node server.js --watch data/json.db"
     },
     "dependencies": {
       "cors": "^2.8.5",
