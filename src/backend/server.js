@@ -5,7 +5,7 @@ const path = require('path')
 const router = jsonServer.router(path.join("./data", 'db.json'))
 const jsondb = require("./data/db.json");
 const middlewares = jsonServer.defaults()
-const port = 8000;
+const port = process.env.PORT || 8000;
 server.use(middlewares)
 
 server.get('/files/:fileId/image/:slideId', (req, res) => {
