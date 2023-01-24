@@ -1,6 +1,5 @@
 // server.js
 const jsonServer = require('json-server')
-const { type } = require('os')
 const server = jsonServer.create()
 const path = require('path')
 const router = jsonServer.router(path.join("./backend/data", 'db.json'))
