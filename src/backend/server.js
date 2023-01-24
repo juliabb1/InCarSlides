@@ -9,21 +9,27 @@ const port = process.env.PORT || 8000;
 server.use(middlewares)
 
 server.get('/files/:fileId/image/:slideId', (req, res) => {
-  console.log(parseInt(req.params.slideId))
   var slideId = parseInt(req.params.slideId)
-  var fileId = parseInt(req.params.fileId) -1
-  var imgUrl = jsondb.files[fileId].imageUrls[slideId]
+  var fileId = parseInt(req.params.fileId) 
+  var jsonFile = filterById(jsondb.files, fileId)
+  var imgUrl = jsonFile.imageUrls[slideId]
   res.json({
     imgUrl: imgUrl
   });
 })
 
-server.get('/files/:fileId', (req, res) => {
-  var fileId = parseInt(req.params.fileId) - 1
-  var slideCount = jsondb.files[fileId].slideCount
-  console.log(slideCount)
-  console.log(typeof(slideCount))
-  var filename = jsondb.files[fileId].filename
+function filterById(jsonObject, id) {
+  return jsonObject.filter(function(jsonObject) {
+    return (jsonObject['id'] === id);
+  })[0];
+}
+
+
+server.get('/files/reduced/:fileId', (req, res) => {
+  var fileId = parseInt(req.params.fileId)
+  var jsonFile = filterById(jsondb.files, fileId)
+  var slideCount = jsonFile.slideCount
+  var filename = jsonFile.filename
   res.json({
     filename: filename,
     slideCount: slideCount
