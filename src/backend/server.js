@@ -12,9 +12,9 @@ server.get('/files/:fileId/image/:slideId', (req, res) => {
   var slideId = parseInt(req.params.slideId)
   var fileId = parseInt(req.params.fileId) 
   var jsonFile = filterById(jsondb.files, fileId)
-  var imgUrl = jsonFile.imageUrls[slideId]
+  var imageUrl = jsonFile.imageUrls[slideId]
   res.json({
-    imgUrl: imgUrl
+    imageUrl: imageUrl
   });
 })
 
