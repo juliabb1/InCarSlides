@@ -50,8 +50,11 @@ function FileUpload() {
   const uploadFile = (e) => { 
     e.preventDefault();
     const data =convertPdfToImages(fileData)
-    data.then((data) => 
-      axios.put("http://localhost:8000/files/1", {
+    var filename = fileData.name
+    filename = filename.slice(0, -4)
+    data.then((data) =>
+      axios.put("https://incar-slides-api.onrender.com/files/1", {
+        filename: filename,
         img: data,
         imgCount: data.length
       }).then((res) => {
