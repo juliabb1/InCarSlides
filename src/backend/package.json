@@ -4,11 +4,12 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js --watch data/json.db"
+        "start": "node server.js --watch data/json.db"
     },
     "dependencies": {
-      "cors": "^2.8.5",
-      "json-serve": "^0.1.0",
-      "json-server": "^0.17.1"
+        "cors": "^2.8.5",
+        "json-serve": "^0.1.0",
+        "json-server": "^0.17.1",
+        "lowdb": "^5.0.5"
     }
-  }
+}

@@ -45,8 +45,9 @@ function FileUpload() {
     return images;
   }
 
-const url = "https://incar-slides-api.onrender.com/files/1";
-const url2 = "http://localhost:8000/files/1";
+const url = /*"https://incar-slides-api.onrender.com/files/1"*/ "http://localhost:8000/files/1";
+const files_url = "http://localhost:8000/files/1";
+const images_url = "http://localhost:8000/images/1?fileId=1";
 
   const uploadFile = (e) => { 
     e.preventDefault();
@@ -54,9 +55,8 @@ const url2 = "http://localhost:8000/files/1";
     var filename = fileData.name
     filename = filename.slice(0, -4)
     data.then((data) =>
-      axios.put(url, {
+      axios.put(files_url, {
         filename: filename,
-        imageUrls: data,
         slideCount: data.length
       }).then((res) => {
         if(res.status === 200){
@@ -64,9 +64,22 @@ const url2 = "http://localhost:8000/files/1";
         }
         else{
           alert("Oop! Something went wrong :(")
+      }}))
+      
+      axios.delete(files_url)
+      data.then((data) =>
+      axios.post(images_url, {
+        fileId: 1,
+        slideCount: data.length
+      }).then((res) => {
+        if(res.status === 200){
+          alert("File successfully Uploaded!")
         }
-      }))
-  };
+        else{
+          alert("Oop! Something went wrong :(")
+      }}))
+    
+    };
 
   return (
     <form name="uploadForm" onSubmit={uploadFile}>
