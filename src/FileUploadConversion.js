@@ -45,7 +45,8 @@ function FileUpload() {
     return images;
   }
 
-
+const url = "https://incar-slides-api.onrender.com/files/1";
+const url2 = "http://localhost:8000/files/1";
 
   const uploadFile = (e) => { 
     e.preventDefault();
@@ -53,10 +54,10 @@ function FileUpload() {
     var filename = fileData.name
     filename = filename.slice(0, -4)
     data.then((data) =>
-      axios.put("https://incar-slides-api.onrender.com/files/1", {
+      axios.put(url, {
         filename: filename,
-        img: data,
-        imgCount: data.length
+        imageUrls: data,
+        slideCount: data.length
       }).then((res) => {
         if(res.status === 200){
           alert("File successfully Uploaded!")

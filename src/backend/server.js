@@ -36,6 +36,18 @@ server.get('/files/reduced/:fileId', (req, res) => {
   });
 })
 
+server.get('/files/reduced', (req, res) => {
+  var jsonData = [];
+  jsondb.files.forEach(obj => {
+    jsonData.push({
+      id: obj.id,
+      filename: obj.filename,
+      slideCount: obj.slideCount
+    })
+  });
+  res.json(jsonData);
+})
+
 
 server.use(jsonServer.bodyParser)
 server.use((req, res, next) => {
