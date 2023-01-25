@@ -7,7 +7,7 @@ const PDFJS = require("pdfjs-dist/webpack");
 function FileUpload() {
 
   const [fileData, setFileData] = useState("");
-  const [prevSlideCount, setPrevSlideCount] = useState("0");
+  const [prevSlideCount, setPrevSlideCount] = useState("1");
 
   const getFile = (e) => {
     setFileData(e.target.files[0]);
@@ -69,7 +69,7 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
       for (var i = 1; i < maxSlide+1; i++){
         axios.delete(images_url + i.toString())
       }
-      console.log("SLIDE: " + maxSlide)
+      console.log("prevSlideCouut: " + maxSlide)
 
       let axiosArray = []
       data.then((data) => data.forEach((imgUrl) => {
@@ -83,7 +83,6 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
       })
       axiosArray.push(newPromise)
       setPrevSlideCount((axiosArray.length).toString())
-      console.log("Slide: " + prevSlideCount)
     }))
 
       axios
