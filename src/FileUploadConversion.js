@@ -7,6 +7,7 @@ const PDFJS = require("pdfjs-dist/webpack");
 function FileUpload() {
 
   const [fileData, setFileData] = useState("");
+  const [prevSlideCount, setPrevSlideCount] = useState("0");
 
   const getFile = (e) => {
     setFileData(e.target.files[0]);
@@ -45,40 +46,53 @@ function FileUpload() {
     return images;
   }
 
-const url = /*"https://incar-slides-api.onrender.com/files/1"*/ "http://localhost:8000/files/1";
-const files_url = "http://localhost:8000/files/1";
-const images_url = "http://localhost:8000/images/1?fileId=1";
+// const files_url ="http://localhost:8000/files/1";
+// const images_url ="http://localhost:8000/images/";
 
+const files_url = "https://incar-slides-api.onrender.com/files/1";
+const images_url = "https://incar-slides-api.onrender.com/images/";
   const uploadFile = (e) => { 
     e.preventDefault();
     const data =convertPdfToImages(fileData)
     var filename = fileData.name
     filename = filename.slice(0, -4)
-    data.then((data) =>
+    data.then((data) => {
       axios.put(files_url, {
         filename: filename,
         slideCount: data.length
-      }).then((res) => {
-        if(res.status === 200){
-          alert("File successfully Uploaded!")
-        }
-        else{
-          alert("Oop! Something went wrong :(")
-      }}))
-      
-      axios.delete(files_url)
-      data.then((data) =>
-      axios.post(images_url, {
-        fileId: 1,
-        slideCount: data.length
-      }).then((res) => {
-        if(res.status === 200){
-          alert("File successfully Uploaded!")
-        }
-        else{
-          alert("Oop! Something went wrong :(")
-      }}))
-    
+      })}).then((res) => {
+        if(res.status !== 200){
+          alert("Oop! Something went wrong with the upload :(")}
+        })
+
+      var maxSlide = parseInt(prevSlideCount)
+      for (var i = 1; i < maxSlide+1; i++){
+        axios.delete(images_url + i.toString())
+      }
+      console.log("SLIDE: " + maxSlide)
+
+      let axiosArray = []
+      data.then((data) => data.forEach((imgUrl) => {
+        let postData = {};
+        postData["fileId"] = 1;
+        postData["imageUrl"] = imgUrl;
+      let newPromise = axios({
+        method: 'post',
+        url: images_url,
+        data: postData
+      })
+      axiosArray.push(newPromise)
+      setPrevSlideCount((axiosArray.length).toString())
+      console.log("Slide: " + prevSlideCount)
+    }))
+
+      axios
+      .all(axiosArray)
+      .then(axios.spread((...responses) => {
+        responses.forEach(res => console.log('Success'))
+          alert("Upload was successful!")
+      }))
+      .catch(error => {})
     };
 
   return (
