@@ -35,7 +35,7 @@ function FileUpload() {
     const canvas = document.createElement("canvas");
     for (let i = 0; i < pdf.numPages; i++) {
       const page = await pdf.getPage(i + 1);
-      const viewport = page.getViewport({ scale: 1 });
+      const viewport = page.getViewport({ scale: 0.5 });
       const context = canvas.getContext("2d");
       canvas.height = viewport.height;
       canvas.width = viewport.width;
@@ -64,34 +64,54 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         if(res.status !== 200){
           alert("Oop! Something went wrong with the upload :(")}
         })
-
+  
       var maxSlide = parseInt(prevSlideCount)
       for (var i = 1; i < maxSlide+1; i++){
         axios.delete(images_url + i.toString())
       }
-      console.log("prevSlideCouut: " + maxSlide)
+      console.log("prevSlideCount: " + maxSlide)
+  /*
+      let imgUrls = []
+      data.then((data) => {
+        setPrevSlideCount(data.length);
+        data.forEach(url => {
+          imgUrls.push(url)
+        })
+      });
+      const promises = imgUrls.map((imgUrl) => axios.post(images_url, {
+        fileId: 1,
+        imgUrl: imgUrl
+      }));*/
 
       let axiosArray = []
+      let id = 1;
       data.then((data) => data.forEach((imgUrl) => {
         let postData = {};
         postData["fileId"] = 1;
         postData["imageUrl"] = imgUrl;
+        postData["id"] = id
       let newPromise = axios({
         method: 'post',
         url: images_url,
         data: postData
       })
+      id++
       axiosArray.push(newPromise)
       setPrevSlideCount((axiosArray.length).toString())
     }))
+    
 
       axios
       .all(axiosArray)
       .then(axios.spread((...responses) => {
         responses.forEach(res => console.log('Success'))
-          alert("Upload was successful!")
+        console.log('submitted all axios calls');
+        alert("Succesfully submitted!")
       }))
-      .catch(error => {})
+      .catch(error => {
+        alert("Something went Wrong :(")
+        console.log(error)
+      })
     };
 
   return (
