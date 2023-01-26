@@ -8,6 +8,7 @@ function FileUpload() {
 
   const [fileData, setFileData] = useState("");
   const [prevSlideCount, setPrevSlideCount] = useState("1");
+  const chunkNumber = 3;
 
   const getFile = (e) => {
     setFileData(e.target.files[0]);
@@ -35,12 +36,29 @@ function FileUpload() {
     const canvas = document.createElement("canvas");
     for (let i = 0; i < pdf.numPages; i++) {
       const page = await pdf.getPage(i + 1);
-      const viewport = page.getViewport({ scale: 0.5 });
+      const viewport = page.getViewport({ scale: 1 });
       const context = canvas.getContext("2d");
       canvas.height = viewport.height;
       canvas.width = viewport.width;
       await page.render({ canvasContext: context, viewport: viewport }).promise;
-      images.push(canvas.toDataURL());
+
+      // SPLIT DATA URL IN 2 CHUNKS
+      let stringLength = canvas.toDataURL().length
+      let splitIndex = Math.round(stringLength/chunkNumber)
+      let url = canvas.toDataURL()
+      let url_1 = url.slice(0, splitIndex)
+      let url_2 = url.slice(splitIndex, splitIndex*2)
+      let url_3 = url.slice(splitIndex*2, stringLength)
+      // images.push(canvas.toDataURL());
+      images.push(url_1)
+      images.push(url_2)
+      images.push(url_3)
+      // SPLIT DATA URL IN 2 CHUNKS
+      // images.push(canvas.toDataURL())
+     // console.log("Url length: " + stringLength)
+     // console.log("Url1 length: " + url_1.length)
+     // console.log("Url2 length: " + url_2.length)
+
     }
     canvas.remove();
     return images;
@@ -59,7 +77,7 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
     data.then((data) => {
       axios.put(files_url, {
         filename: filename,
-        slideCount: data.length
+        slideCount: data.length / chunkNumber
       })}).then((res) => {
         if(res.status !== 200){
           alert("Oop! Something went wrong with the upload :(")}
@@ -85,17 +103,25 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
 
       let axiosArray = []
       let id = 1;
+      let chunkId = 1;
+      let imageId = 1
       data.then((data) => data.forEach((imgUrl) => {
         let postData = {};
         postData["fileId"] = 1;
         postData["imageUrl"] = imgUrl;
         postData["id"] = id
+        postData["imageId"] = imageId
+        postData["chunkId"] = chunkId
       let newPromise = axios({
         method: 'post',
         url: images_url,
         data: postData
       })
+      chunkId++
       id++
+      if(chunkId === 4) {
+        imageId++
+        chunkId = 1;}
       axiosArray.push(newPromise)
       setPrevSlideCount((axiosArray.length).toString())
     }))
