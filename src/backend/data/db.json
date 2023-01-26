@@ -10,7 +10,23 @@
     {
       "id": 1,
       "fileId": 1,
-      "imageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdj0ORq+w8AAtIBuUxLVGAAAAAASUVORK5CYII="
+      "imageUrl": "data:image/png;base64,iVBORw0KGgoA",
+      "imageId": 1,
+      "chunkId": 1
+    },
+    {
+      "id": 2,
+      "fileId": 1,
+      "imageUrl": "AAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdj0ORq+w",
+      "imageId": 1,
+      "chunkId": 2
+    },
+    {
+      "id": 2,
+      "fileId": 1,
+      "imageUrl": "8AAtIBuUxLVGAAAAAASUVORK5CYII=",
+      "imageId": 1,
+      "chunkId": 3
     }
   ]
 }
