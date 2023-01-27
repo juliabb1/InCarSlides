@@ -104,7 +104,8 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
       let axiosArray = []
       let id = 1;
       let chunkId = 1;
-      let imageId = 1
+      let imageId = 1;
+      let colorCode = 8; // blue
       data.then((data) => data.forEach((imgUrl) => {
         let postData = {};
         postData["fileId"] = 1;
@@ -112,6 +113,7 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         postData["id"] = id
         postData["imageId"] = imageId
         postData["chunkId"] = chunkId
+        postData["colorCode"] = colorCode
       let newPromise = axios({
         method: 'post',
         url: images_url,

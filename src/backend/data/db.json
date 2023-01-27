@@ -12,21 +12,24 @@
       "fileId": 1,
       "imageUrl": "data:image/png;base64,iVBORw0KGgoA",
       "imageId": 1,
-      "chunkId": 1
+      "chunkId": 1,
+      "colorCode": 8
     },
     {
       "id": 2,
       "fileId": 1,
       "imageUrl": "AAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdj0ORq+w",
       "imageId": 1,
-      "chunkId": 2
+      "chunkId": 2,
+      "colorCode": 8
     },
     {
       "id": 2,
       "fileId": 1,
       "imageUrl": "8AAtIBuUxLVGAAAAAASUVORK5CYII=",
       "imageId": 1,
-      "chunkId": 3
+      "chunkId": 3,
+      "colorCode": 8
     }
   ]
 }
