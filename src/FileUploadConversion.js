@@ -287,7 +287,7 @@ function FileUpload() {
 
       // get color converted img url
       let mostCommonColorCode = await getMostCommonColorCodeOfImage(canvas, url)
-      console.log(mostCommonColorCode)
+      colorCodebyImageId[i+1] = mostCommonColorCode
 
       let url_1 = url.slice(0, splitIndex)
       let url_2 = url.slice(splitIndex, splitIndex*2)

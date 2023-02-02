@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.853ca46e.css",
+    "main.js": "/static/js/main.c76f5f0a.js",
+    "static/js/119.5e43f5fb.chunk.js": "/static/js/119.5e43f5fb.chunk.js",
+    "static/js/787.3b10f587.chunk.js": "/static/js/787.3b10f587.chunk.js",
+    "static/media/mb-logo.png": "/static/media/mb-logo.7e9cf90ff51d05698e97.png",
+    "index.html": "/index.html",
+    "main.853ca46e.css.map": "/static/css/main.853ca46e.css.map",
+    "main.c76f5f0a.js.map": "/static/js/main.c76f5f0a.js.map",
+    "119.5e43f5fb.chunk.js.map": "/static/js/119.5e43f5fb.chunk.js.map",
+    "787.3b10f587.chunk.js.map": "/static/js/787.3b10f587.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.853ca46e.css",
+    "static/js/main.c76f5f0a.js"
+  ]
+}
