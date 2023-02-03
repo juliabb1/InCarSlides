@@ -11,7 +11,7 @@ function FileUpload() {
   const [imgSrc, setImgSrc] = useState("");
 
   const [prevSlideCount, setPrevSlideCount] = useState("1");
-  const chunkNumber = 3;
+  const chunkNumber = 4;
   const availableAmbientColors = {
     "NoColor": {
       "colorCode": 0,
@@ -291,11 +291,18 @@ function FileUpload() {
 
       let url_1 = url.slice(0, splitIndex)
       let url_2 = url.slice(splitIndex, splitIndex*2)
-      let url_3 = url.slice(splitIndex*2, stringLength)
+      console.log("splitindex1: " + splitIndex)
+      console.log("splitindex2: " + splitIndex*2)
+      console.log("splitindex3: " + splitIndex*3)
+      console.log("splitindex4: " + stringLength)
+
+      let url_3 = url.slice(splitIndex*2, splitIndex*3)
+      let url_4 = url.slice(splitIndex*3, stringLength)
       // images.push(canvas.toDataURL());
       images.push(url_1)
       images.push(url_2)
       images.push(url_3)
+      images.push(url_4)
 
       // CALCULATE COLOR FOR EACH IMAGE
  
@@ -353,7 +360,7 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         })
         chunkId++
         id++
-        if(chunkId === 4) {
+        if(chunkId === (chunkNumber + 1)) {
           imageId++
           chunkId = 1;}
         axiosArray.push(newPromise)

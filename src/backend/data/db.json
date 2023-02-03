@@ -18,17 +18,25 @@
     {
       "id": 2,
       "fileId": 1,
-      "imageUrl": "AAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdj0ORq+w",
+      "imageUrl": "AAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c",
       "imageId": 1,
       "chunkId": 2,
       "colorCode": 8
     },
     {
-      "id": 2,
+      "id": 3,
       "fileId": 1,
-      "imageUrl": "8AAtIBuUxLVGAAAAAASUVORK5CYII=",
+      "imageUrl": "6QAAAA1JREFUGFdj0ORq+w8AAtIBuUxL",
       "imageId": 1,
       "chunkId": 3,
+      "colorCode": 8
+    },
+        {
+      "id": 4,
+      "fileId": 1,
+      "imageUrl": "VGAAAAAASUVORK5CYII=",
+      "imageId": 1,
+      "chunkId": 4,
       "colorCode": 8
     }
   ]
