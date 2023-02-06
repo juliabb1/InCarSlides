@@ -291,11 +291,6 @@ function FileUpload() {
 
       let url_1 = url.slice(0, splitIndex)
       let url_2 = url.slice(splitIndex, splitIndex*2)
-      console.log("splitindex1: " + splitIndex)
-      console.log("splitindex2: " + splitIndex*2)
-      console.log("splitindex3: " + splitIndex*3)
-      console.log("splitindex4: " + stringLength)
-
       let url_3 = url.slice(splitIndex*2, splitIndex*3)
       let url_4 = url.slice(splitIndex*3, stringLength)
       // images.push(canvas.toDataURL());
@@ -352,7 +347,7 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         postData["id"] = id
         postData["imageId"] = imageId
         postData["chunkId"] = chunkId
-        postData["colorCode"] = colorCodebyImageId[imageId]
+        postData["colorCode"] = parseInt(colorCodebyImageId[imageId])
         let newPromise = axios({
           method: 'post',
           url: images_url,
