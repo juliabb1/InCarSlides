@@ -201,7 +201,7 @@ function FileUpload() {
       context.putImageData(data, 0, 0) 
       setImgSrc(canvas.toDataURL())
       // Debugging
-      return mostCommonColorCode
+      return parseInt(mostCommonColorCode)
     })
   }
 
@@ -241,29 +241,7 @@ function FileUpload() {
     }
     return 0
   }
-/*
-  const getNearestColorCodeByRGB_OLD = (rgb) => {
-    var nearestColorCode = 0
-    var minimDist
-    var minimKey
-    var currDist
-    // calculate distance between input rgb and every available rgb in the rk
-    for (var key in availableAmbientColors) {
-      console.log("key: " + key)
-      currDist = (availableAmbientColors[key]["rgb"][0]-rgb[0])**2 + (availableAmbientColors[key]["rgb"][1]-rgb[1])**2 + (availableAmbientColors[key]["rgb"][2]-rgb[2])**2
-      if(minimDist < currDist && minimKey !== undefined && minimDist !== undefined) {
-        nearestColorCode = availableAmbientColors[minimKey]["colorCode"]
-      } else {
-        nearestColorCode = availableAmbientColors[key]["colorCode"]
-        minimDist = currDist
-        minimKey = key
-      }
-      console.log("minimDist: " + minimDist + " currDist: " + currDist + " curr av RGB: " + availableAmbientColors[key]["rgb"] + "Input RGB: "+ rgb[0] + "," + rgb[1] + "," + rgb[2] +" nearest code: " + nearestColorCode)
-    }
 
-    console.log("for rgb: " + rgb + " colorcode: " + nearestColorCode)
-    return nearestColorCode 
-  }*/
 
   //param: file -> the input file (e.g. event.target.files[0])
   //return: images -> an array of images encoded in base64 
@@ -298,12 +276,6 @@ function FileUpload() {
       images.push(url_2)
       images.push(url_3)
       images.push(url_4)
-
-      // CALCULATE COLOR FOR EACH IMAGE
- 
-      // var avgRGBColor = getAvgColor(canvas)
-      // console.log("imageId: " + (i+1) + "RGB: " + avgRGBColor[0] + " " + avgRGBColor[1] + " " + avgRGBColor[2])
-      // colorCodebyImageId[i+1] = getNearestColorCodeByRGB(avgRGBColor)
     }
     canvas.remove();
     return images;
@@ -346,8 +318,9 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         postData["imageUrl"] = imgUrl;
         postData["id"] = id
         postData["imageId"] = imageId
-        postData["chunkId"] = chunkId
-        postData["colorCode"] = parseInt(colorCodebyImageId[imageId])
+        postData["chunkId"] = parseInt(chunkId)
+        postData["colorCode"] = colorCodebyImageId[imageId]
+        console.log(colorCodebyImageId[imageId])
         let newPromise = axios({
           method: 'post',
           url: images_url,
