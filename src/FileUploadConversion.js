@@ -201,7 +201,8 @@ function FileUpload() {
       context.putImageData(data, 0, 0) 
       setImgSrc(canvas.toDataURL())
       // Debugging
-      return parseInt(mostCommonColorCode)
+      mostCommonColorCode = parseInt(mostCommonColorCode)
+      return mostCommonColorCode
     })
   }
 
@@ -319,8 +320,8 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         postData["id"] = id
         postData["imageId"] = imageId
         postData["chunkId"] = parseInt(chunkId)
-        postData["colorCode"] = parseInt(colorCodebyImageId[imageId])
-        console.log(colorCodebyImageId[imageId])
+        postData["colorCode"] = colorCodebyImageId[imageId]
+
         let newPromise = axios({
           method: 'post',
           url: images_url,
