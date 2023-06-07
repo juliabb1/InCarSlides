@@ -320,7 +320,7 @@ const images_url = "https://incar-slides-api.onrender.com/images/";
         postData["id"] = id
         postData["imageId"] = imageId
         postData["chunkId"] = parseInt(chunkId)
-        postData["colorCode"] = colorCodebyImageId[imageId]
+        postData["colorCode"] = parseInt(colorCodebyImageId[imageId])
 
         let newPromise = axios({
           method: 'post',
