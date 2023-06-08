@@ -10,7 +10,6 @@ function FileUpload() {
   const [fileData, setFileData] = useState("");
   const [imgSrc, setImgSrc] = useState("");
 
-  const [prevSlideCount, setPrevSlideCount] = useState("1");
   const chunkNumber = 4;
   const availableAmbientColors = {
     "NoColor": {
@@ -287,69 +286,154 @@ function FileUpload() {
 // const images_url ="http://localhost:8000/images/";
 
 const files_url = "https://incar-slides-api.onrender.com/files/1";
-const images_url = "https://incar-slides-api.onrender.com/images/";
-  const uploadFile = (e) => { 
-    e.preventDefault();
-    const data = convertPdfToImages(fileData)
-    var filename = fileData.name
-    filename = filename.slice(0, -4)
-    data.then((data) => {
-      axios.put(files_url, {
-        filename: filename,
-        slideCount: data.length / chunkNumber
-      })}).then((res) => {
-        if(res.status !== 200){
-          alert("Oop! Something went wrong with the upload :(")}
-        })
-  
-      var maxSlide = parseInt(prevSlideCount)
-      for (var i = 1; i < maxSlide+1; i++){
-        axios.delete(images_url + i.toString())
-        .then(console.log("Successfully deleted!"))
-        .catch(console.log("Promise Rejected."))
+const images_url = "https://incar-slides-api.onrender.com/images";
+const uploadFile = async (e) => {
+  e.preventDefault();
+
+  const data = await convertPdfToImages(fileData);
+  const filename = fileData.name.slice(0, -4);
+
+  try {
+    // Fetch all entries and delete them
+    const response = await axios.get(images_url);
+    const entries = response.data;
+
+    // Delete each object in the array
+    const deletePromises = entries.map(entry => {
+      const url = images_url + "/" + entry.id;
+      return axios.delete(url);
+    });
+
+    // Wait for all delete operations to complete
+    await Promise.all(deletePromises);
+
+    console.log('All objects deleted successfully');
+
+    // Upload new images
+    const axiosArray = data.map((imgUrl, index) => {
+      let id = index + 1;
+      let chunkId = (index % chunkNumber) + 1;
+      let imageId = Math.floor(index / chunkNumber) + 1;
+      let postData = {
+        fileId: 1,
+        imageUrl: imgUrl,
+        id: id,
+        imageId: imageId,
+        chunkId: parseInt(chunkId)
+      };
+
+      if (!isNaN(Number(colorCodebyImageId[imageId]))) {
+        postData.colorCode = parseInt(colorCodebyImageId[imageId]);
       }
-      console.log("prevSlideCount: " + maxSlide)
 
-      let axiosArray = []
-      let id = 1;
-      let chunkId = 1;
-      let imageId = 1;
-      data.then((data) => data.forEach((imgUrl) => {
-        let postData = {};
-        postData["fileId"] = 1;
-        postData["imageUrl"] = imgUrl;
-        postData["id"] = id
-        postData["imageId"] = imageId
-        postData["chunkId"] = parseInt(chunkId)
-        postData["colorCode"] = colorCodebyImageId[imageId]
+      return axios.post(images_url, postData);
+    });
 
-        let newPromise = axios({
-          method: 'post',
-          url: images_url,
-          data: postData
-        })
-        chunkId++
-        id++
-        if(chunkId === (chunkNumber + 1)) {
-          imageId++
-          chunkId = 1;}
-        axiosArray.push(newPromise)
-        setPrevSlideCount((axiosArray.length).toString())
-      }))
+    const responses = await axios.all(axiosArray);
+
+    let allFilesUploaded = true;
+    responses.forEach((res, index) => {
+      if (res.status === 200 || res.status === 201) {
+        console.log(`Successfully uploaded ${index + 1}`);
+      } else {
+        console.log('Error in upload', res);
+        allFilesUploaded = false;
+      }
+    });
+
+    if (allFilesUploaded) {
+      alert('All files uploaded successfully!');
+    } else {
+      alert('Oop! Something went wrong with the upload :(');
+    }
+  } catch (error) {
+    console.error('There was an error in the upload:', error);
+    console.error('Server response:', error.response);
+    alert('Oop! Something went wrong with the upload :(');
+    return;
+  }
+};
+
+
+
+/*
+const uploadFile = async (e) => {
+  e.preventDefault();
+
+  const data = await convertPdfToImages(fileData)
+  const filename = fileData.name.slice(0, -4)
+
+  // Fetch all entries
+  axios.get(images_url)
+  .then(response => {
+    const entries = response.data;  // assuming the data is in response.data
+
+    // Create an array of promises for all delete operations
+    const deletePromises = entries.map(entry => {
+      // assuming the ID of each entry is in entry.id
+      const url = images_url+ entry.id;
+      return axios.delete(url);
+    });
+
+    // Wait for all delete operations to complete
+    return Promise.all(deletePromises);
+  })
+  .then(() => {
+    console.log('All entries deleted successfully');
+  })
+  .catch(error => {
+    console.error('Error deleting entries:', error);
+  });
     
-    axios
-    .all(axiosArray)
-    .then(axios.spread((...responses) => {
-      responses.forEach(res => console.log('Success'))
-      console.log('submitted all axios calls');
-      alert("Succesfully submitted!")
-    }))
-    .catch(error => {
-      alert("Something went Wrong :(")
-      console.log(error)
-    })
-  };
+  try {
+    const putRes = await axios.put(files_url, {
+      filename: filename,
+      slideCount: data.length / chunkNumber
+    });
 
+    if(putRes.status !== 200){
+      alert("Oop! Something went wrong with the upload :(");
+      return;
+    }
+    
+    let id = 1;
+    let chunkId = 1;
+    let imageId = 1;
+
+    const axiosArray = data.map((imgUrl, index) => {
+      let postData = {};
+      postData["fileId"] = 1;
+      postData["imageUrl"] = imgUrl;
+      postData["id"] = id;
+      postData["imageId"] = imageId;
+      postData["chunkId"] = parseInt(chunkId);
+      if (!isNaN(Number(colorCodebyImageId[postData["imageId"]]))) {
+        postData["colorCode"] = parseInt(colorCodebyImageId[postData["imageId"]]);
+      }
+      postData["colorCode"] = colorCodebyImageId[imageId];
+
+      chunkId++
+      id++
+      if(chunkId === (chunkNumber + 1)) {
+        imageId++
+        chunkId = 1;
+      }
+
+      return axios.post(images_url, postData);
+    });
+    
+
+    const responses = await axios.all(axiosArray);
+    responses.forEach(res => console.log('Success'));
+    console.log('submitted all axios calls');
+    alert("Successfully submitted!");
+  } catch(error) {
+    alert("Something went Wrong :(");
+    console.log(error);
+  }
+};
+
+*/
   return (
     <form name="uploadForm" onSubmit={uploadFile}>
       <input type="file" className="fileInput" name="file" onChange={getFile} accept=".pdf" required />
